@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hang Man!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="assets/css/style.css" rel="stylesheet" id="theme-stylesheet">
+    <script>
+    function setGuessResults() {
+    	var bob = document.getElementById("lblWord");
+    	var buildWord = "";
+console.log(bob);
+    	for (let i = 0; i < 7; i++) {
+    		buildWord += "___ ";
+    	}
+
+    	bob.innerHTML = buildWord;
+    }
+
+    setGuessResults();
+    </script>
+</head>
+<body>
+<!-- INSTRUCTIONS
+1. Watch the demo.
+2. Choose a theme for your game! In the demo, we picked an 80s theme: 80s questions, 80s sound and an 80s aesthetic. You can choose any subject for your theme, though, so be creative!
+3. Use key events to listen for the letters that your players will type.
+4. Display the following on the page:
+5. Press any key to get started!
+6.Wins: (# of times user guessed the word correctly).
+  * If the word is madonna, display it like this when the game starts: _ _ _ _ _ _ _.
+  * As the user guesses the correct letters, reveal them: m a d o _  _ a.
+7. Number of Guesses Remaining: (# of guesses remaining for the user).
+8. Letters Already Guessed: (Letters the user has guessed, displayed like L Z Y H).
+9. After the user wins/loses the game should automatically choose another word and make the user play it.
+
+****Hangman Game Bonuses****
+1. Play a sound or song when the user guesses their word correctly, like in our demo.
+2. Write some stylish CSS rules to make a design that fits your game's theme.
+3. HARD MODE: Organize your game code as an object, except for the key events to get the letter guessed. This will be a challenge if you haven't coded with JavaScript before, but we encourage anyone already familiar with the language to try this out.
+4. Save your whole game and its properties in an object.
+5. Save any of your game's functions as methods, and call them underneath your object declaration using event listeners.
+6.Don't forget to place your global variables and functions above your object.
+  * Remember: global variables, then objects, then calls.
+7. Definitely talk with a TA or your instructor if you get tripped up during this challenge.
+-->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading text-center"><h3>Control Panel</h3></div>
+					<div class="panel-body">
+						<ul>
+							<li>Reset Game</li>
+							<li>Show Answer</li>
+							<li>Give Hint</li>
+						</ul>
+						<hr />
+						<h4>Instructions</h4>
+						<ul>
+							<li>Press the Spacebar to start the game</li>
+							<li>Press any letter key on your keyboard to guess that letter</li>
+							<li>Click the "Reset Game" link above to start over</li>
+							<li>???</li>
+							<li>Profit!</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="jumbotron text-center">
+					<h1>Let's Play Canine Hangman!</h1>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3">
+				
+			</div>
+			<div class="col-lg-9 text-center" style="background: rgba(242, 242, 242, 0.8">
+				<img src="assets/images/Hangman_RightFoot.png" alt="At the beginning">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>Number of Guesses &nbsp;<span class="label label-default">0</span></h4>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h1><span class="label label-default" id="lblWord"></span></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<!-- List of dog breeds for hangman words
+Affenpinscher
+Afghan Hound
+Africanis
+Aidi
+Airedale Terrier
+Akbash Dog
+Akita, see also American Akita
+Alano Español
+Alapaha Blue Blood Bulldog
+Alaskan Klee Kai
+Alaskan husky
+Alaskan Malamute
+Alopekis
+Alpine Dachsbracke
+Alsatian
+American Akita - see Great Japanese Dog
+American Bulldog, including
+JDJ American Bulldog
+Scott's American Bulldog
+Southern White American Bulldog
+American Cocker Spaniel
+American English Coonhound
+American Eskimo Dog
+American Foxhound
+American Hairless Terrier
+American Husky - see Canadian Eskimo Dog
+American Mastiff
+American Pit Bull Terrier
+American Staghound
+American Staffordshire Terrier
+American Water Spaniel
+Anatolian Shepherd Dog
+Anglo-Francais de Petite Venerie
+Appenzeller Sennenhund
+Arctic Husky - see Siberian Husky
+Argentine Dogo
+Ariege Pointer
+Ariegeois
+Artois Hound
+Australian Bulldog
+Australian Cattle Dog
+Australian Jack Russell Terrier - see also Jack Russell Terrier, Parson Russell Terrier and Russell Terrier
+Australian Kelpie
+Australian Koolie - see Koolie
+Australian Shepherd
+Australian Silky Terrier
+Australian Stumpy Tail Cattle Dog
+Australian Terrier
+Austrian Brandlbracke
+Azawakh
+Boxer
+Balkan Hound - see Serbian Hound
+Bandog
+Barbet
+Basenji
+Basset Artésien Normand
+Basset Bleu de Gascogne
+Basset Fauve de Bretagne
+Basset Hound
+Bavarian Mountain Hound
+Beagle
+Beagle-Harrier
+Bearded Collie
+Bearded Tibetan Mastiff - seeTibetan Kyi Apso
+Beauceron
+Bedlington Terrier
+Belgian Griffon
+Belgian Shepherd Dog, often divided into:
+Belgian Shepherd Dog (Groenendael)
+Belgian Shepherd Dog (Laekenois)
+Belgian Shepherd Dog (Malinois)
+Belgian Shepherd Dog (Tervuren)
+Berger Blanc Suisse
+Berger Picard
+Bergamasco
+Bernese Mountain Dog (Berner Sennenhund)
+Bichon Frisé
+Biewer
+Billy
+Black and Tan Coonhound
+Black Mouth Cur
+Black Russian Terrier
+Bloodhound
+Blue Heeler - see Australian Cattle Dog
+Blue Paul Terrier
+Blue Picardy Spaniel
+Bluetick Coonhound
+Bolognese
+Boerboel
+Border Collie
+Border Terrier
+Borzoi
+Bosanski Ostrodlaki Gonic Barak
+Bosnian Tornjak
+Boston Terrier
+Bouvier Bernois - see Bernese Mountain Dog
+Bouvier des Ardennes
+Bouvier des Flandres
+Boxer
+Boykin Spaniel
+Bracco Italiano
+Braque d'Auvergne
+Braque du Bourbonnais
+Braque Francais (Gascogne type)
+Braque Francais (Pyrenean type)
+Braque Saint-Germain
+Brazilian Mastiff - see Fila Brasileiro
+Brazilian Terrier
+Briard
+Briquet Griffon Vendeen
+Brittany
+Broholmer
+Brussels Griffon - see Griffon Bruxellois
+Romanian Shepherd Dog
+Bull Terrier
+Bull Terrier (Miniature)
+Bulldog
+Bullmastiff
+Bully Kutta
+Ca de Bou - see Perro de Presa Mallorquin
+Cairn Terrier
+Canaan Dog
+Canadian Eskimo Dog (Canadian Inuit Dog)
+Cane Corso
+Estrela Mountain Dog
+Cão da Serra de Aires
+Portuguese Water Dog
+Cão de Castro Laboreiro
+Cão de Fila de São Miguel
+Cão de Fila da Terceira
+Cão de Gado Transmontano
+Caravan Hound - see Mudhol Hound
+Cardigan Welsh Corgi
+Carpatin
+Catahoula Bulldog
+Catahoula Leopard Dog (Catahoula Cur or Catahoula Hog Dog)
+Catahoula Bulldog
+Catalan Sheepdog
+Caucasian Ovcharka
+Cavalier King Charles Spaniel
+Central Asia Shepherd Dog
+Cesky Fousek
+Cesky Terrier
+Chesapeake Bay Retriever
+Chihuahua
+Chinese Crested Dog
+Korea Jindo Dog
+Chinook
+Chippiparai
+Chow Chow
+Cirneco dell'Etna
+Clumber Spaniel
+Cockapoo
+Cocker Spaniel - see American Cocker Spaniel or English Cocker Spaniel
+Collie - see Rough Collie, Smooth Collie, Bearded Collie or Border Collie
+Coolie - see Koolie
+Cordoba Fighting Dog
+Corgi - see Welsh Corgi, Cardigan Welsh Corgi and Pembroke Welsh Corgi
+Coton de Tulear
+Croatian Sheepdog
+Cur - see also Black Mouth Cur, Catahoula Leopard Dog, Mountain Cur, Stephens Cur, and Treeing Cur
+Curly Coated Retriever
+Czechoslovakian Wolfdog
+German Wirehaired Pointer
+Dachshund
+Dakota Sport Retriever
+Dalmatian
+Dandie Dinmont Terrier
+Danish Broholmer
+Danish/Swedish Farm Dog
+Deerhound
+Deutsch Drahthaar - see German Wirehaired Pointer
+Deutsche Bracke
+Deutscher Wachtelhund
+Dhoki apso - see Tibetan Terrier
+Do-Khyi - see Tibetan Mastiff
+Dobermann (Doberman Pinscher)
+Dogo Cubano
+Dogue de Bordeaux
+Dogue de Majorque - see Perro de Presa Mallorquin
+Drentse Patrijshond (Dutch Partridge Dog)
+Drever
+Dunker
+Dutch Shepherd Dog - See Hollandse Herder
+Dutch Smoushond
+East Siberian Laika
+English Cocker Spaniel
+English Coonhound
+English Foxhound
+English Mastiff
+English Pointer
+English Setter
+English Shepherd
+English Springer Spaniel
+English Toy Spaniel - see King Charles Spaniel
+English Toy Terrier (Black & Tan)
+Entlebucher Mountain Dog/Sennenhund/Cattle Dog
+Epagneul Picard - see Picardy Spaniel
+Epagneul Pont-Audemer - see Pont-Audemer Spaniel
+Eskimo Dog (Esquimaux) - see Canadian Eskimo Dog
+Estonian Hound
+Estrela Mountain Dog
+Eurasier
+Eurohound
+Finnish Hound
+Feist
+Field Spaniel
+Fila Brasileiro
+Finnish Hound
+Finnish Lapphund
+Finnish Spitz
+Flat-Coated Retriever
+Foxhound - divided into American Foxhound, English Foxhound
+Fox Terrier - divided into Fox Terrier (Smooth), Fox Terrier (Wire), Miniature Fox Terrier, Toy Fox Terrier
+Francais Blanc et Noir
+Francais Blanc et Orange
+Francais Tricolore
+Franzuskaya Bolonka
+French Bulldog
+French Spaniel
+French Wirehaired Pointing Griffon
+Golden Retriever
+Galgo Español
+Gawii
+German Longhaired Pointer
+German Pinscher
+German Rough-haired Pointer
+German Shepherd Dog -- see Alsatian
+German Shorthaired Pointer
+German Spaniel - see Deutscher Wachtelhund
+German Spitz - divided into:
+German Spitz (Gross)
+German Spitz (Klein)
+German Spitz (Mittel)
+German Wirehaired Pointer
+Giant Schnauzer
+Glen of Imaal Terrier
+Goldendoodle
+Golden Retriever
+Gonczy Polski - see Polish Scenthound
+Gordon Setter
+Gos d'atura - see Catalan Sheepdog
+Grand Anglo-Francais Blanc et Noir
+Grand Anglo-Francais Blanc et Orange
+Grand Anglo-Francais Tricolore
+Grand Basset Griffon Vendeen
+Grand Bleu de Gascogne
+Grand Gascon Saintongeois
+Grand Griffon Vendeen
+Gran Mastin de Borínquen
+Great Dane
+Great Japanese Dog
+Great Pyrenees - see Pyrenean Mountain Dog
+Greater Swiss Mountain Dog (Grosser Schweizer Sennenhund)
+Greek Harehound
+Greek Shepherd (Greek Sheepdog)
+Greenland Dog (Greenland Husky)
+Greyhound
+Griffon Bleu de Gascogne
+Griffon Bruxellois
+Griffon Fauve de Bretagne
+Griffon Nivernais
+Groenendael - see Belgian Shepherd Dog (Groenendael)
+Gull Dong
+Gull Terr
+Hygenhund
+Hairless Khala
+Haldenstovare
+Hamiltonstövare
+Hanover Hound
+Harrier
+Havanese
+Himalayan Sheepdog
+Hokkaido
+Hollandse Herder (Dutch Shepherd dog)
+Hovawart
+Hungarian Greyhound - see Magyar Agar
+Hungarian Vizsla
+Hungarian Wirehaired Vizsla - see Hungarian Vizsla
+Huntaway
+Hygenhund
+Ibizan Hound
+Icelandic Sheepdog
+Indian Bullterrier
+Irish Bull Terrier
+Irish Red and White Setter
+Irish Setter
+Irish Staffordshire Terrier
+Irish Terrier
+Irish Water Spaniel
+Irish Wolfhound
+Istarski Kratkodlaki Gonic
+Istarski Ostrodlaki Gonic (Istrian Coarse-Haired Hound)
+Istrian Sheepdog
+Italian Greyhound
+Italian Spinone - see Spinone Italiano
+Jack Russell Terrier
+Jack Russell Terrier - see also Australian Jack Russell Terrier, Parson Russell Terrier and Russell Terrier
+Jagdterrier
+Jämthund
+Japanese Chin
+Japanese Spitz
+Japanese Terrier
+Jindo - see Korea Jindo Dog
+Jonangi
+Kai Ken
+Kangal Dog
+Kanni
+Karelian Bear Dog
+Kars Dog
+Keeshond
+Kelpie - see Australian Kelpie
+Kelb-tal Fenek - see Pharaoh Hound
+Kerry Blue Terrier
+King Charles Spaniel
+Kishu
+Kombai
+Komondor
+Kooikerhondje
+Koolie
+Korea Jindo Dog
+Korean Mastiff
+Korthals Griffon - see Wirehaired Pointing Griffon
+Krasky Ovcar - see Istrian Sheepdog
+Kromfohrlander
+Kuvasz
+Kyi Leo
+Labradoodle
+Labrador Retriever
+Laekenois - see Belgian Shepherd Dog (Laekenois)
+Lagotto Romagnolo
+Lakeland Terrier
+Lancashire Heeler
+Landseer (Continental-European type) - see also Newfoundland
+Lapinporokoira
+Large Munsterlander
+Leonberger
+Lhasa Apso
+Llewellyn Setter - see English Setter
+Löwchen
+Mackenzie River husky
+Magyar Agar
+Malinois - see Belgian Shepherd Dog (Malinois)
+Maltese
+Manchester Terrier
+Maremma Sheepdog
+Mastiff - see English Mastiff
+Meliteo Kinidio
+Mexican Hairless Dog
+Middle Asian Owtcharka - see Central Asia Shepherd Dog
+Miniature Australian Shepherd
+Miniature Bull Terrier - see Bull Terrier (Miniature)
+Miniature Fox Terrier
+Miniature Pinscher
+Miniature Schnauzer
+Mioritic
+Mixed-breed dog
+Moscovskaya Storozhevaya Sobaka (Moscow Watchdog)
+Mountain Burmese
+Mountain Cur
+Mudi
+Mudhol Hound
+Munsterlander - see Large Munsterlander or Small Munsterlander
+Neapolitan Mastiff
+Nebolish Mastiff
+Newfoundland
+Norfolk Terrier
+Norrbottenspets
+Northern Inuit -- see Utonagan
+Norwegian Buhund
+Norwegian Elkhound
+Norwegian Lundehund
+Norwich Terrier
+Nova Scotia Duck-Tolling Retriever
+Old Danish Pointer
+Old English Sheepdog
+Old English Bulldog
+Olde Englishe Bulldogge
+Osterreichischer Kurzhaariger Pinscher
+Otterhound
+Otto - see Alapaha Blue Blood Bulldog
+Owczarek Podhalanski
+Panja, see American Mastiff
+Papillon
+Parson Russell Terrier - see also Australian Jack Russell Terrier, Jack Russell Terrier and Russell Terrier
+Patterdale Terrier
+Pekeapoo
+Pekingese
+Pembroke Welsh Corgi
+Perdiguero de Burgos
+Perro Cimarron
+Perro de Pastor Mallorquin
+Perro de Presa Canario
+Perro de Presa Mallorquin
+Perro de Toro
+Peruvian Hairless Dog
+Peruvian Inca Orchid
+Petit Basset Griffon Vendeen
+Petit Bleu de Gascogne
+Petit Brabancon
+Petit Gascon Saintongeois
+Phalène
+Pharaoh Hound
+Phung San
+Picardy Shepherd - see Berger Picard
+Picardy Spaniel
+Pinscher - see Affenpinscher, Austrian Short-Haired Pinscher, Dobermann, German Pinscher, Miniature Pinscher, Swiss Shorthaired Pinscher
+Pit Bull - see American Pit Bull Terrier, American Staffordshire Terrier, American Bulldog, Staffordshire Bull Terrier
+Plott Hound
+Podenco Canario
+Pointer - see English Pointer
+Poitevin
+Polish Scenthound (Gonczy Polski)
+Polish Greyhound - see Chart Polski
+Polish Sighthound - see Chart Polski
+Polish Hound (Polish Ogar)
+Polish Lowland Sheepdog (Polski Owczarek Nizinny or PON)
+Polish Tatra Sheepdog - see Owczarek Podhalanski
+Pomeranian
+Pont-Audemer Spaniel
+Poodle
+Porcelaine
+Portuguese Podengo
+Portuguese Pointer
+Portuguese Shepherd Dog - see Cao da Serra de Aires
+Portuguese Water Dog
+Posavac Hound
+Prazsky Krysavik
+Pudelpointer
+Pug
+Puggle
+Puli
+Pumi
+Pyrenean Mastiff
+Pyrenean Mountain Dog
+Pyrenean Shepherd
+Queensland Heeler - see Australian Cattle Dog
+Rafeiro do Alentejo
+Rajapalayam
+Rampur Greyhound
+Ratonero Bodeguero Andaluz
+Rat Terrier
+Redbone Coonhound
+Rhodesian Ridgeback
+Rottweiler
+Rough Collie
+Russian Black Terrier - see Black Russian Terrier
+Russian Hound
+Russian Spaniel
+Russian Toy Terrier
+Russian Tsvetnaya Bolonka - see Tsvetnaya Bolonka
+Russko-Evropeiskaia Laika
+Russell Terrier - see also Australian Jack Russell Terrier, Jack Russell Terrier and Parson Russell Terrier
+Saarlooswolfhond
+Sabueso Espanol
+Saluki
+Samoyed
+Sapsali
+Sarplaninac
+Schapendoes
+Schillerstovare
+Schipperke
+Schnauzer - divided into Miniature Schnauzer, Standard Schnauzer, Giant Schnauzer
+Schnoodle
+Schweizer Laufhund
+Schweizer Niederlaufhund
+Scottish Deerhound - see Deerhound
+Scottish Terrier
+Sealyham Terrier
+Segugio Italiano
+Seppala Siberian Sleddog
+Serbian Hound
+Serbian Mountain Hound
+Serbian Tricolour Hound
+Shar Pei
+Shetland Sheepdog
+Shiba Inu
+Shih Tzu
+Shikoku
+Shiloh Shepherd Dog
+Siberian Husky
+Silken Windhound
+Silky Terrier - see Australian Silky Terrier
+Sindh Mastiff - see Indian Mastiff
+Skye Terrier
+Sloughi
+Slovak Cuvac
+Slovakian Hound
+Slovensky Hrubosrsty Stavac (Ohar)
+Smalandsstovare
+Small Greek Domestic Dog - see Meliteo Kinidio
+Small Munsterlander
+Smooth Collie
+Smooth Fox Terrier - see Fox Terrier (Smooth)
+Soft-Coated Wheaten Terrier
+South Russian Ovtcharka
+Spanish Alano - see Alano Español
+Spanish Galgo - see Galgo Espanol
+Spanish Mastiff
+Spanish Water Dog
+Spinone Italiano
+Spitz -- see Spitz for a list of Spitz-type breeds
+Springer Spaniel - see English Springer Spaniel or Welsh Springer Spaniel
+St. Bernard
+Stabyhoun
+Staffordshire Bull Terrier
+Standard Schnauzer
+Stephens Cur
+Styrian Coarse-haired Hound
+Sussex Spaniel
+Swedish Elkhound - see Jämthund
+Swedish Lapphund
+Swedish Vallhund
+Swiss Shorthaired Pinscher
+Tatra Shepherd Dog - see Owczarek Podhalanski
+Tenterfield Terrier
+Tervuren - See Belgian Shepherd Dog (Tervueren)
+Thai Bangkaew Dog
+Thai Ridgeback
+Teddy Roosevelt Terrier
+Tibetan Kyi Apso
+Tibetan Lhasa Apso - see Lhasa Apso
+Tibetan Mastiff
+Tibetan Spaniel
+Tibetan Terrier
+Tosa
+Toy Bulldog
+Toy Fox Terrier
+Toy Manchester Terrier
+Toy Mi-Ki
+Transylvanian Hound
+Treeing Cur
+Treeing Tennessee Brindle
+Treeing Walker Coonhound
+Tsvetnaya Bolonka
+Tyrolean Hound
+Utonagan
+Valley Bulldog
+Vizsla - see Hungarian Vizsla
+Volpino Italiano
+Weimaraner
+Welsh Corgi
+Cardigan Welsh Corgi
+Pembroke Welsh Corgi
+Welsh Springer Spaniel
+Welsh Terrier
+West Highland White Terrier
+West Siberian Laika
+Westphalian Dachsbracke
+Wetterhoun
+Whippet
+White Shepherd Dog - see Berger Blanc Suisse
+Wilkinson Bulldog
+Wire Fox Terrier - see Fox Terrier (Wire)
+Wirehaired Pointing Griffon
+Xoloitzcuintle - see Mexican Hairless
+Yorkshire Terrier
+-->
