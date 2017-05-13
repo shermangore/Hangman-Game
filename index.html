@@ -26,75 +26,196 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Doggone Hangman!</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+    		crossorigin="anonymous">
     <link href="assets/css/style.css" rel="stylesheet" id="theme-stylesheet">
     <script>
     	// 1) Create global variables
-    		// - Word List
-    		// - Number of Guesses
-    		// - Number Wrong
-    		// - Difficulty Level (global?)
-    		// - Alphabet Array
-    		// - GameStarted 
-    		// - Object variable for img tag
-    		// - Image array to keep track of image order
-		let hgImage = document.getElementById("imgHangman");
-		let theWord = [];
-		let arrWord = document.getElementById("lblWord").innerHTML.split(" ");
+    	// - Word List
+		const dogList = [
+							{"breed":"AZAWAKH", "rank":8}, 
+							{"breed":"BOXER", "rank":3}, 
+							{"breed":"BULLDOG", "rank":3}, 
+							{"breed":"BULLMASTIFF", "rank":5}, 
+							{"breed":"ROTTWEILER", "rank":4}, 
+							{"breed":"COLLIE", "rank":6}, 
+							{"breed":"XOLOITZCUINTLE", "rank":10}
+						];
+
+    	// - Number of Guesses
 		let guessCount = 0;
-		let gameStarted = false;
+
+    	// - Number Wrong
 		let wrongCount = 0;
+
+    	// - Difficulty Level (global?)
+		let diffLevel = "";
+
+    	// - Alphabet Array
+		const alphabet = [
+							"a", "b", "c", "d", "e", "f", "g", "h", "i", 
+						  	"j", "k", "l", "m", "n", "o", "p", "q", "r", 
+						  	"s", "t", "u", "v", "w", "x", "y", "z"
+						 ];
+
+    	// - GameStarted 
+		let gameStarted = false;
+
+    	// - Object variable for img tag
+		let hgImage;
+
+    	// - Image array to keep track of image order
+    	const imgList = [
+    						"assets/images/HangMan_Base.png",
+    						"assets/images/HangMan_Post.png",
+    						"assets/images/HangMan_Horizontal.png",
+    						"assets/images/HangMan_Noose.png",
+    						"assets/images/HangMan_Head.png",
+    						"assets/images/HangMan_Body.png",
+    						"assets/images/HangMan_RightArm.png",
+    						"assets/images/HangMan_LeftArm.png",
+    						"assets/images/HangMan_RightLeg.png",
+    						"assets/images/HangMan_LeftLeg.png",
+    						"assets/images/HangMan_RightFoot.png",
+    						"assets/images/HangMan_LeftFoot.png"
+    					];
+
+    	// - Empty array to fill with letters from the randomly selected word
+		let theWord = [];
+
+		// - Array of the blank spaces - for easy replacement with letters
+		let arrWord = [];
+
+		// - Letters guessed so far
 		let guessedLetters = [];
+
     	// 2) Events required
     		// - OnKeyUp - to start the game and to guess letters
     		// - Reset OnClick - to reset game
     		// - Show Answer OnClick - to quit and show all letters
     		// - Give Hint OnClick - to show first empty letter
+    		// - Set up blanks
 
     	document.onkeyup = function(event) {
     		console.log(event.key);
+			let userGuess = event.key;
+
     		// Check to verify the pressed key was either alpha or spacebar
-				// If spacebar:
-    				// Check if GameStarted = true
-    					// If false
-    						// - Update GameStarted variable to true
-    						// - Get difficult level
-    						// - Get word from array
-    						// - Set hangman blanks to match word
-    					// If true
-    						// - Ignore it
+			if (alphabet.indexOf(userGuess) !== -1) {
     			// If alphabetical key:
-    				// Check if GameStarted = true
+				// Check if GameStarted = true
+				if (gameStarted) {
     					// If false
     						// - Ignore it
-    					// If true
-    						// - Check to see if selected letter is in the guesses array
-    							// If the guess is in the list
-    								// - Ignore it
-    							// If the guess is not in the list
-    								// - Update the guess list with the new letter
-    								// - Check the word list array to see if the letter is in the word
-    									// If the guess is in the word list,
-    										// - Update the hangman blanks with the letter
-    									// If the guess is NOT in the word list
-    										// - Update the picture to the next picture
-    										// - Update the wrong guesses count
-    										// - Check to see if the wrong guesses count > 11
-    											// If it is > 11
-    												// - Set GameStarted = false
-    												// - Display picture to sad dog image
-    											// If it is <= 11
-    												// - Ignore it
+    				// If true
+					let ltr = theWord.indexOf(userGuess.toUpperCase());
+    				
+    				// - Check to see if selected letter is in the guesses array
+						// If the guess is in the list
+							// - Ignore it
+						// If the guess is not in the list
+					if (guessedLetters.indexOf(userGuess.toUpperCase()) === -1) {
+    						// - Update the guess list with the new letter
+						guessedLetters.push(userGuess.toUpperCase());
+
+						// Update guessCount label
+						document.getElementById("lblGuesses").innerHTML = ++guessCount;						
+					}
+					// - Check the word list array to see if the letter is in the word
+						// If the guess is in the word list,
+							// - Update the hangman blanks with the letter
+						// If the guess is NOT in the word list
+							// - Update the picture to the next picture
+							// - Update the wrong guesses count
+							// - Check to see if the wrong guesses count > 11
+								// If it is > 11
+									// - Set GameStarted = false
+									// - Display picture to sad dog image
+								// If it is <= 11
+									// - Ignore it
+
+    				/*********************************************
+						CORRECT GUESSES ARE NOT UPDATING THE BLANKS LABEL!!!
+    				*********************************************/
+					if (ltr !== -1) {
+						for (let i = 0; i <theWord.length; i++) {
+							if (theWord[i] === userGuess.toUpperCase()) {
+								arrWord[i] = userGuess.toUpperCase();
+							}
+						}
+
+						document.getElementById("lblWord").innerHTML = arrWord.join(" ");
+						//update list of letters
+						//update array of guessed letters
+					} else {
+						// check guessCount
+						/************************
+						THIS IS WRONG, SHOULD ACTUALLY BE CHECKING **WRONG** GUESSES, NOT TOTAL GUESSES
+						************************/
+						if (guessCount <= 12) {
+							// if < 12, then update hangman image
+							imgHangman.src = imgList[guessCount - 1];
+						} else if (guessCount > 0 && guessCount > 12) {
+							// if >= 12, then set image to sad dog 1-5 and stop allowing guesses
+							let tempImgNum = Math.floor(Math.random() * 5) + 1;
+							imgHangman.src = "assets/images/SadDog_" + tempImgNum + ".jpg";
+						}
+					}
+				}
+			} else if (userGuess === " ") { // check if userGuess is spacebar
+				// If spacebar:
+    			// If true - Ignore it (by default since there is no else/else if)
+				// if this is the first press of the spacebar (gamestarted = false _or_ !gameStarted)
+				// Check if GameStarted = true
+				if (!gameStarted) {
+					// If false
+					//start game
+					hgImage = document.getElementById("imgHangman");
+
+					// - Update GameStarted variable to true
+					gameStarted = true;
+
+					// - Set the hangman image to Hangman.png
+					hgImage.src = "assets/images/Hangman.png";
+
+					// - Set the guessCount = 0
+					guessCount = 0;
+
+					// - Set the wrongCount = 0
+					wrongCount = 0;
+
+					// - Get difficult level
+					diffLevel = document.querySelector('input[name="diff"]:checked').value;
+					
+					// - Get word from array
+					// - Set hangman blanks to match word (getWord function calls the setBlanks function)
+					let tempWord = getWord(diffLevel);
+					//let tempArr = tempWord.split("");
+					//theWord.push.apply(theWord, tempArr);
+				}
+			}
 
     	}
 
     	function resetGame() {
-    		// Set word count = 0
-    		// Set difficulty to "easy"
-    		// Set image src to empty
     		// Set guess count = 0
+    		guessCount = 0;
+
+    		// Set difficulty to "easy"
+    		diffLevel = "easy";
+
+    		// Set image src to Hangman.png
+    		imgHangman.src = "assets/images/Hangman.png";
+
+    		// Set guess count = 0
+    		guessCount = 0;
+
     		// Set wrong count = 0
+    		wrongCount = 0;
+
     		// Set game started = false
+    		gameStarted = false;
     	}
 
     	function giveHint() {
@@ -107,6 +228,48 @@
     		// Set GameStarted = false
     		// Fill in all blanks with correct letters
     	}
+
+	    function setBlanks(word) {
+	    	let buildWord = "";
+
+	    	for (let i = 0; i < word.length; i++) {
+	    		buildWord += "___ ";
+	    	}
+
+	    	buildWord = buildWord.trim();
+
+	    	document.getElementById("lblWord").innerHTML = buildWord;
+	    }
+
+		function getWord(diff) {
+			let newList = [];
+
+			if (diff === "easy") {
+				for (let i = 0; i < dogList.length; i++) {
+					if (dogList[i].rank > 0 && dogList[i].rank < 4) {
+						newList.push(dogList[i].breed);
+					}
+				}
+			} else if (diff === "medium") {
+				for (let i = 0; i < dogList.length; i++) {
+					if (dogList[i].rank > 3 && dogList[i].rank < 8) {
+				 		newList.push(dogList[i].breed);
+					}
+				}
+			} else if (diff === "hard") {
+				for (let i = 0; i < dogList.length; i++) {
+					if (dogList[i].rank > 7 && dogList[i].rank <= 10) {
+				 		newList.push(dogList[i].breed);
+					}
+				}
+			}
+
+			let rndNum = Math.floor(Math.random() * (newList.length));
+
+			setBlanks(newList[rndNum]);
+
+			return newList[rndNum];
+		}
     </script>
 </head>
 <body>

@@ -16,3 +16,11 @@ body {
 	border: 1px solid black;
 }
 
+#imgHangman {
+	width: 640px;
+	height: 480px;
+	max-width: 640px;
+	max-height: 480px;
+	min-width: 640px;
+	min-height: 480px;
+}
