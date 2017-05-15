@@ -95,18 +95,18 @@ let hgImage;
 
 // - Image array to keep track of image order
 const imgList = [
-					"assets/images/HangMan_Base.png",
-					"assets/images/HangMan_Post.png",
-					"assets/images/HangMan_Horizontal.png",
-					"assets/images/HangMan_Noose.png",
-					"assets/images/HangMan_Head.png",
-					"assets/images/HangMan_Body.png",
-					"assets/images/HangMan_RightArm.png",
-					"assets/images/HangMan_LeftArm.png",
-					"assets/images/HangMan_RightLeg.png",
-					"assets/images/HangMan_LeftLeg.png",
-					"assets/images/HangMan_RightFoot.png",
-					"assets/images/HangMan_LeftFoot.png"
+					"assets/images/Hangman_Base.png",
+					"assets/images/Hangman_Post.png",
+					"assets/images/Hangman_Horizontal.png",
+					"assets/images/Hangman_Noose.png",
+					"assets/images/Hangman_Head.png",
+					"assets/images/Hangman_Body.png",
+					"assets/images/Hangman_RightArm.png",
+					"assets/images/Hangman_LeftArm.png",
+					"assets/images/Hangman_RightLeg.png",
+					"assets/images/Hangman_LeftLeg.png",
+					"assets/images/Hangman_RightFoot.png",
+					"assets/images/Hangman_LeftFoot.png"
 				];
 
 // - Empty array to fill with letters from the randomly selected word
