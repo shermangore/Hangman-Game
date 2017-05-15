@@ -133,7 +133,7 @@ let isPlayable = true;
 
 document.onkeyup = function(event) {
 	let userGuess = event.key;
-debugger;
+
 	// Check to verify the pressed key was either alpha or spacebar
 	if (alphabet.indexOf(userGuess) !== -1) {
 		// If alphabetical key:
