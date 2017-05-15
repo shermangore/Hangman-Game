@@ -7,7 +7,68 @@ const dogList = [
 					{"breed":"BULLMASTIFF", "rank":5}, 
 					{"breed":"ROTTWEILER", "rank":4}, 
 					{"breed":"COLLIE", "rank":6}, 
-					{"breed":"XOLOITZCUINTLE", "rank":10}
+					{"breed":"XOLOITZCUINTLE", "rank":10},
+					{"breed":"AFFENPINSCHER", "rank":9},
+					{"breed":"AFRICANIS", "rank":9},
+					{"breed":"AIDI", "rank":6},
+					{"breed":"LAPINPOROKOIRA", "rank":10},
+					{"breed":"KEESHOND", "rank":7},
+					{"breed":"KANNI", "rank":6},
+					{"breed":"JONANGI", "rank":7},
+					{"breed":"JAGDTERRIER", "rank":8},
+					{"breed":"HYGENHUND", "rank":8},
+					{"breed":"HUNTAWAY", "rank":7},
+					{"breed":"HOVAWART", "rank":6},
+					{"breed":"HOKKAIDO", "rank":6},
+					{"breed":"HAVENESE", "rank":5},
+					{"breed":"HARRIER", "rank":6},
+					{"breed":"HYGENHUND", "rank":7},
+					{"breed":"GREYHOUND", "rank":3},
+					{"breed":"GOLDENDOODLE", "rank":5},
+					{"breed":"SCHNAUZER", "rank":4},
+					{"breed":"GAWII", "rank":8},
+					{"breed":"EUROHOUND", "rank":6},
+					{"breed":"EURASIER", "rank":7},
+					{"breed":"POINTER", "rank":4},
+					{"breed":"FOXHOUND", "rank":6},
+					{"breed":"DUNKER", "rank":7},
+					{"breed":"DREVER", "rank":8},
+					{"breed":"DEERHOUND", "rank":7},
+					{"breed":"WOLFHOUND", "rank":6},
+					{"breed":"DALMATION", "rank":4},
+					{"breed":"DACHSHUND", "rank":5},
+					{"breed":"RETRIEVER", "rank":3},
+					{"breed":"SHEEPDOG", "rank":3},
+					{"breed":"CUR", "rank":5},
+					{"breed":"SHEEPDOG", "rank":4},
+					{"breed":"CORGI", "rank":2},
+					{"breed":"COCKAPOO", "rank":3},
+					{"breed":"CHOW", "rank":2},
+					{"breed":"CHIPPIPARAI", "rank":8},
+					{"breed":"CHINOOK", "rank":7},
+					{"breed":"CHIHUAHUA", "rank":5},
+					{"breed":"CANAAN", "rank":6},
+					{"breed":"BROHOLMER", "rank":8},
+					{"breed":"BRITTANY", "rank":7},
+					{"breed":"BRIARD", "rank":6},
+					{"breed":"BORZOI", "rank":8},
+					{"breed":"BOERBOEL", "rank":8},
+					{"breed":"BOLOGNESE", "rank":7},
+					{"breed":"BLOODHOUND", "rank":5},
+					{"breed":"BIEWER", "rank":7},
+					{"breed":"BERGAMASCO", "rank":9},
+					{"breed":"GRIFFON", "rank":6},
+					{"breed":"BEAUCERON", "rank":7},
+					{"breed":"BEAGLE", "rank":3},
+					{"breed":"BASENJI", "rank":5},
+					{"breed":"BARBET", "rank":7},
+					{"breed":"BANDOG", "rank":7},
+					{"breed":"AZAWAKH", "rank":8},
+					{"breed":"TERRIER", "rank":5},
+					{"breed":"SHEPHERD", "rank":4},
+					{"breed":"ARIEGEOIS", "rank":8},
+					{"breed":"HUSKY", "rank":3},
+					{"breed":"MASTIFF", "rank":4}
 				];
 
 // - Number of Guesses
@@ -72,7 +133,7 @@ let isPlayable = true;
 
 document.onkeyup = function(event) {
 	let userGuess = event.key;
-
+debugger;
 	// Check to verify the pressed key was either alpha or spacebar
 	if (alphabet.indexOf(userGuess) !== -1) {
 		// If alphabetical key:
@@ -128,7 +189,7 @@ document.onkeyup = function(event) {
 					hgImage.src = "assets/images/HappyDog_" + tempImgNum + ".jpg";
 				}
 			} else {
-				// check guessCount
+				// check hasBeenGuessed
 				if (hasBeenGuessed) wrongCount++;
 
 				if (wrongCount < 12) {
@@ -137,6 +198,7 @@ document.onkeyup = function(event) {
 				} else if (wrongCount >= 12) {
 					// if >= 12, then set image to sad dog 1-5 and stop allowing guesses
 					let tempImgNum = Math.floor(Math.random() * 5) + 1;
+
 					hgImage.src = imgList[wrongCount -1];
 					isPlayable = false;
 					
@@ -144,6 +206,7 @@ document.onkeyup = function(event) {
 						hgImage.src = "assets/images/SadDog_" + tempImgNum + ".jpg";
 					}, 500);
 				} else if (wrongCount === 12) {
+					// Makes the game unplayable so that the user can't keep guessing
 					isPlayable = false;
 				}
 			}
@@ -192,9 +255,6 @@ function resetGame() {
 	// Set guess count = 0
 	guessCount = 0;
 
-	// Set difficulty to "easy"
-	diffLevel = "easy";
-
 	// Set image src to Hangman.png
 	hgImage.src = "assets/images/Hangman.png";
 
@@ -224,6 +284,17 @@ function resetGame() {
 
 	// Set gameStarted variable to false
 	gameStarted = false;
+
+	// Set isPlayable variable to true
+	isPlayable = true;
+
+	// Clear the number of guesses label
+	document.getElementById("lblGuesses").innerHTML = "";
+
+	// Set the focus away from the button so that key strokes work normally
+	if (document.activeElement) {
+	    document.activeElement.blur();
+	}
 }
 
 function showHint() {
@@ -235,11 +306,17 @@ function showHint() {
 	for (let i = 0; i < arrHint.length; i++) {
 		if (arrHint[i] === "___") {
 			arrHint[i] = theWord[i];
+			arrWord[i] = arrHint[i];
 			break;
 		}
 	}
 
 	document.getElementById("lblWord").innerHTML = arrHint.join(" ");
+
+	// Set the focus away from the button so that key strokes work normally
+	if (document.activeElement) {
+	    document.activeElement.blur();
+	}
 }
 
 function showAnswer() {
